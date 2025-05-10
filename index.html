@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NemG SDK Docs</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Highlight.js ObjC style -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/objectivec.min.js"></script>
+
+  <!-- Animate.css cho hiệu ứng -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+      color: #eee;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      overflow-x: hidden;
+      animation: fadeIn 0.8s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 {
+      font-size: 2.25rem;
+      font-weight: 600;
+    }
+    .btn-discord {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .btn-discord img {
+      width: 32px; height: 32px;
+      filter: brightness(0) invert(1);
+      transition: filter .3s;
+    }
+    .btn-discord:hover img {
+      filter: brightness(1) invert(0.7) sepia(1) hue-rotate(90deg);
+    }
+
+    .pagination-controls {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .pagination-controls button {
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #0f0;
+      border: none;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background .3s;
+    }
+    .pagination-controls button.active,
+    .pagination-controls button:hover {
+      background: #27c93f;
+    }
+
+    .doc-page {
+      display: none;
+      animation-duration: 0.6s;
+    }
+    .doc-page.active {
+      display: block;
+      animation-name: slideIn;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(50px); opacity: 0; }
+      to   { transform: translateX(0);  opacity: 1; }
+    }
+
+    .docs-section { margin-bottom: 2rem; }
+    .docs-section h2 {
+      font-size: 1.75rem;
+      margin-bottom: .75rem;
+      border-bottom: 2px solid #444;
+      padding-bottom: .25rem;
+    }
+    .docs-section h3 {
+      font-size: 1.25rem;
+      margin-top: 1.25rem;
+      margin-bottom: .5rem;
+      color: #0f0;
+    }
+    .docs-section p, .docs-section li { line-height: 1.6; }
+
+    .mac-window {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .mac-header {
+      background: rgba(255,255,255,0.1);
+      padding: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .mac-dot { width: 0.75rem; height: 0.75rem; border-radius: 50%; background: #FF5F56; }
+    .mac-dot.yellow { background: #FFBD2E; }
+    .mac-dot.green  { background: #27C93F; }
+
+    .copy-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem;
+    }
+    .copy-btn svg {
+      width: 1rem; height: 1rem; fill: #eee;
+      transition: fill .3s;
+    }
+    .copy-btn:hover svg { fill: #0f0; }
+
+    pre.mac-content {
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: .9rem;
+      white-space: pre;
+      opacity: 0;
+      animation: fadeInLeft 0.6s ease-out forwards;
+    }
+    @keyframes fadeInLeft {
+      from { transform: translateX(-20px); opacity: 0; }
+      to   { transform: translateX(0);   opacity: 1; }
+    }
+
+    code.hljs { display: block; }
+
+    ul { padding-left: 1.2rem; }
+
+    .demo-img {
+      display: block;
+      margin: 0.5rem auto;
+      max-width: 200px;
+      border: 2px solid #444;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header chính với icon Discord -->
+    <div class="page-header">
+      <h1>NemG SDK Docs</h1>
+      <button class="btn-discord" onclick="window.open('https://discord.gg/your_discord_link','_blank')" title="Join Discord">
+        <img src="https://cdn.worldvectorlogo.com/logos/discord-logo-color.svg" alt="Discord">
+      </button>
+    </div>
+
+    <!-- Nút chuyển trang -->
+    <div class="pagination-controls">
+      <button id="btn-page-1" class="active" onclick="showPage(1)">Trang 1</button>
+      <button id="btn-page-2"        onclick="showPage(2)">Trang 2</button>
+    </div>
+
+    <!-- Trang 1 -->
+    <div id="page-1" class="doc-page active">
+      <!-- Giới thiệu với link ẩn download -->
+      <section class="docs-section" id="intro">
+        <h2>Giới thiệu</h2>
+        <p>
+          Trang tài liệu này hướng dẫn tích hợp và sử dụng thư viện
+          <strong>
+            <a href="https://cdn.discordapp.com/attachments/1368560142727249961/1370591123071832074/API_Version_1.4.zip?ex=68200df4&is=681ebc74&hm=d664d3f8700688b045e542d8b281e966a326891c325e424d7d82a6d937d0b43d&"
+               style="color:inherit; text-decoration:none;">
+              NemG (NemGVn.a)
+            </a>
+          </strong>
+          trong dự án Theos: cấu hình build, import, và tham khảo chi tiết từng API.
+        </p>
+      </section>
+
+      <!-- Cài đặt Theos -->
+      <section class="docs-section" id="theos">
+        <h2>Cài đặt Theos</h2>
+        <ol>
+          <li>Clone Theos:
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7h2v12h10V21z M16,3H5c-1.1,0-2,0.9-2,2v12h2V5h11V3z"/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">git clone --recursive https://github.com/theos/theos.git ~/theos</code></pre>
+            </div>
+          </li>
+          <li>Thêm biến môi trường:
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7h2v12h10V21z M16,3H5c-1.1,0-2,0.9-2,2v12h2V5h11V3z"/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">export THEOS=~/theos
+export PATH=$THEOS/bin:$PATH</code></pre>
+            </div>
+          </li>
+          <li>Reload profile:
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7h2v12h10V21z M16,3H5c-1.1,0-2,0.9-2,2v12hg"/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">source ~/.bash_profile</code></pre>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Bắt Buộc Phải Có -->
+      <section class="docs-section" id="mandatory">
+        <h2>Bắt Buộc Phải Có</h2>
+        <div class="mac-window">
+          <div class="mac-header">
+            <span class="mac-dot"></span>
+            <span class="mac-dot yellow"></span>
+            <span class="mac-dot green"></span>
+            <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7hg"/></svg></button>
+          </div>
+          <pre class="mac-content"><code class="objc">#////////////////////////////////// BẮT BUỘC PHẢI CÓ
+TWEAKNAME_CFLAGS   += -I$(THEOS_PROJECT_DIR)/API -I$(THEOS_PROJECT_DIR)/Menu
+TWEAKNAME_LDFLAGS  += $(THEOS_PROJECT_DIR)/API/NemGVn.a $(THEOS_PROJECT_DIR)/Menu/NemGVn.a
+TWEAKNAME_FRAMEWORKS = UIKit Security QuartzCore CoreGraphics CoreText AdSupport Accelerate Foundation WebKit IOKit MobileCoreServices
+#//////////////////////////////////</code></pre>
+        </div>
+      </section>
+
+      <!-- Import Thư Viện -->
+      <section class="docs-section" id="import">
+        <h2>Import Thư Viện</h2>
+        <div class="mac-window">
+          <div class="mac-header">
+            <span class="mac-dot"></span>
+            <span class="mac-dot yellow"></span>
+            <span class="mac-dot green"></span>
+            <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7hg"/></svg></button>
+          </div>
+          <pre class="mac-content"><code class="objc">#import &lt;NemG/NemG.h&gt;
+
+NemG *API;</code></pre>
+        </div>
+      </section>
+
+      <!-- Ví dụ BeautyListModel -->
+      <section class="docs-section" id="code-sample">
+        <h2>Ví dụ Code (.mm)</h2>
+        <div class="mac-window">
+          <div class="mac-header">
+            <span class="mac-dot"></span>
+            <span class="mac-dot yellow"></span>
+            <span class="mac-dot green"></span>
+            <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7hg"/></svg></button>
+          </div>
+          <pre class="mac-content"><code class="objc">@implementation BeautyListModel
+
+NSString * __updateAppURL   = FBEncrypt("https://thenamk3.net/sever/update.html");
+NSString * __welcomePageURL = FBEncrypt("https://thenamk3.net/sever/welcome.html");
+NSString * __loginPageURL   = FBEncrypt("https://thenamk3.net/sever/key.html");
+NSString * __errorPageURL   = FBEncrypt("https://thenamk3.net/sever/error.html");
+NSString * __freePageURL    = FBEncrypt("https://thenamk3.net/sever/free.html");
+NSString * __blockPageURL   = FBEncrypt("https://thenamk3.net/sever/free.html");
+
+NSString * const __NextDNS  = FBEncrypt("7274c6");
+
++ (void)load {
+    API = [NemG listen:FBEncrypt("AOV-QWM6IUZCRN9J5FH1")];
+    [Menu startWithRemoteHTMLURL:@"https://thenamk3.net/filemanager/demo.html"];
+    [API Package_token:@"4f9774eacba885a9215583b3f8588f7d"];
+    [API version:@"1.0" paid:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [ViewController openmenu];
+        }];
+        NSLog(@"Key: %@",   [API loginKey]);
+        NSLog(@"UDID: %@",  [API loginUUID]);
+        NSLog(@"Server Text: %@", [API loginTextServer]);
+        NSLog(@"Server IP: %@",   [API loginIP]);
+    }];
+}
+
+@end</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <!-- Trang 2 -->
+    <div id="page-2" class="doc-page">
+      <section class="docs-section" id="api-reference">
+        <h2>Tham khảo API</h2>
+
+        <h3>1. Khởi tạo & xác thực</h3>
+        <ul>
+          <li>
+            <code>+ (NemG*)listen:(NSString*)key;</code>
+            <span style="color:#aaa">– Khởi tạo và trả về instance NemG với API key.</span>
+          </li>
+          <li>
+            <code>- (void)version:(NSString*)ver paid:(void(^)(void))execute;</code>
+            <span style="color:#aaa">– Kiểm tra phiên bản và key, nếu hợp lệ thì chạy block.</span>
+          </li>
+          <li>
+            <code>- (void)Package_token:(NSString*)token;</code>
+            <span style="color:#aaa">– Đăng ký package token để phân quyền bổ sung.</span>
+          </li>
+        </ul>
+
+        <h3>2. Phân quyền theo loại key</h3>
+        <div class="mac-window">
+          <div class="mac-header">
+            <span class="mac-dot"></span>
+            <span class="mac-dot yellow"></span>
+            <span class="mac-dot green"></span>
+            <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7hg"/></svg></button>
+          </div>
+          <pre class="mac-content"><code class="objc">[API keytype:@"admin"
+   adminBlock:^{
+    // tính năng VIP
+} normalBlock:^{
+    // tính năng cơ bản
+}];</code></pre>
+          <span style="color:#aaa">– Cho phép chạy block VIP hay cơ bản tùy loại key.</span>
+        </div>
+
+        <h3>3. Các URL & hằng số</h3>
+        <ul>
+          <li><code>__updateAppURL</code> – URL cập nhật app.</li>
+          <li><code>__welcomePageURL</code> – URL trang welcome.</li>
+          <li><code>__loginPageURL</code> – URL trang login.</li>
+          <li><code>__errorPageURL</code> – URL trang lỗi.</li>
+          <li><code>__freePageURL</code> – URL trang miễn phí.</li>
+          <li><code>__blockPageURL</code> – URL trang block.</li>
+          <li><code>__NextDNS</code> – ID DNS hostname.</li>
+        </ul>
+
+        <h3>4. Thông tin phiên & key</h3>
+        <ul>
+          <li><code>loginKey</code>, <code>loginUUID</code>, <code>loginType</code>, <code>loginEndTime</code>, <code>loginTimeReal</code> – các thông tin cơ bản về session.</li>
+          <li><code>loginUsername</code>, <code>loginTextServer</code>, <code>loginIP</code> – username, thông điệp server, IP.</li>
+          <li><code>loginCity</code>/<code>Region</code>/<code>Country</code>/<code>Location</code>/<code>Org</code>/<code>Postal</code>/<code>Timezone</code> – thông tin địa lý.</li>
+        </ul>
+        <div class="mac-window">
+          <div class="mac-header">
+            <span class="mac-dot"></span>
+            <span class="mac-dot yellow"></span>
+            <span class="mac-dot green"></span>
+            <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7hg"/></svg></button>
+          </div>
+          <pre class="mac-content"><code class="objc">NSString *ip   = [API loginIP];
+NSString *msg  = [API loginTextServer];
+NSLog(@"IP: %@, Msg: %@", ip, msg);</code></pre>
+          <span style="color:#aaa">– Ví dụ lấy IP và thông điệp từ server.</span>
+        </div>
+
+        <h3>5. Tiện ích chung</h3>
+        <ul>
+          <li>
+            <code>dumpunity:</code>
+            <span style="color:#aaa">– Dump thư mục Unity và trả về path.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API dumpunity:^(NSString *path){
+    NSLog(@"Dump xong: %@", path);
+}];</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>cleardata:displayTime:</code>
+            <span style="color:#aaa">– Hiện cảnh báo xóa dữ liệu trong X giây.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API cleardata:@"⚠️ Xoá toàn bộ dữ liệu" displayTime:3.0];</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>fakedevice:device:</code>
+            <span style="color:#aaa">– Giả lập thiết bị iOS.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API fakedevice:YES device:@"iPad16,6"];</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>FakeNetwork:</code>
+            <span style="color:#aaa">– Thay đổi trạng thái mạng (0-wifi,1-2G,2-4G,…).</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API FakeNetwork:2]; // 4G</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>loadingg:execute:</code>
+            <span style="color:#aaa">– Hiển thị loading trong X giây rồi thực thi code.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API loadingg:2.5 execute:^{
+    NSLog(@"Loading xong");
+}];</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>FPS:color:font:active:</code>
+            <span style="color:#aaa">– Hiển thị FPS overlay.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API FPS:@"⚡ Đang chạy" color:[UIColor greenColor] font:[UIFont systemFontOfSize:15] active:YES];</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>tele:andCaption:token:chatID:</code>
+            <span style="color:#aaa">– Gửi thông báo qua Telegram bot.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API tele:@"Thông báo" andCaption:@"Caption đẹp" token:@"BOT_TOKEN" chatID:@"CHAT_ID"];</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>callDiscord:webhookURL:</code>
+            <span style="color:#aaa">– Gửi message tới Discord webhook.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API callDiscord:@"Hello Discord" webhookURL:@"WEBHOOK_URL"];</code></pre>
+            </div>
+          </li>
+          <li>
+            <code>sendTelegram:botToken:chatID:</code>
+            <span style="color:#aaa">– Gửi tin nhắn Telegram.</span>
+            <div class="mac-window">
+              <div class="mac-header">
+                <span class="mac-dot"></span>
+                <span class="mac-dot yellow"></span>
+                <span class="mac-dot green"></span>
+                <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+              </div>
+              <pre class="mac-content"><code class="objc">[API sendTelegram:@"Hello" botToken:@"BOT_TOKEN" chatID:@"CHAT_ID"];</code></pre>
+            </div>
+          </li>
+        </ul>
+
+        <h3>6. Demo HTML</h3>
+        <div class="mac-window">
+          <div class="mac-header">
+            <span class="mac-dot"></span>
+            <span class="mac-dot yellow"></span>
+            <span class="mac-dot green"></span>
+            <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c..."/></svg></button>
+          </div>
+          <pre class="mac-content"><code class="objc">&lt;!DOCTYPE html&gt;
+&lt;html lang="vi"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;
+  &lt;title&gt;Demo NemG Menu&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome to NemG Menu&lt;/h1&gt;
+  &lt;p&gt;Đây là demo nội dung được load từ remote.&lt;/p&gt;
+  &lt;img src="https://cdn.discordapp.com/attachments/1368560142727249961/1370591123650642072/Anh_man_hinh_2025-05-09_luc_19.39.26.png"
+       alt="Demo NemG Menu" class="demo-img"&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <h3>7. Hàm log và interface Menu</h3>
+        <div class="mac-window">
+          <div class="mac-header">
+            <span class="mac-dot"></span>
+            <span class="mac-dot yellow"></span>
+            <span class="mac-dot green"></span>
+            <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path/></svg></button>
+          </div>
+          <pre class="mac-content"><code class="objc">
+#define ServerLog(...) _NemGLog(__VA_ARGS__)
+
+NS_ASSUME_NONNULL_BEGIN
+@interface Menu : NSObject
++ (void)startWithRemoteHTMLURL:(NSString *)url;    // Khởi tạo menu với URL remote
++ (id)getValueForKey:(NSString *)key;               // Lấy giá trị lưu
++ (NSDictionary *)getAllState;                     // Lấy toàn bộ state lưu
++ (void)saveState;                                  // Lưu state hiện tại
++ (void)loadState;                                  // Tải lại state đã lưu
+@end
+NS_ASSUME_NONNULL_END</code></pre>
+          <span style="color:#aaa">// Cách dùng ví dụ</span>
+          <pre class="mac-content"><code class="objc">// Log custom
+ServerLog(@"User logged in: %@", username);
+
+/#import "Menu.h"
+
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+     // 1) Nạp config cũ (nếu có)
+     [Menu loadState];
+
+     // 2) Khởi Web‐UI, mở tại http://<your-ip>:12222
+     [Menu startWithRemoteHTMLURL:@"https://thenamk3.net/filemanager/demo.html"];
+     return YES;
+ }
+
+ // Một hàm cập nhật logic đơn giản:
+ - (void)updateLogic {
+     // Đọc các tuỳ chọn đã lưu
+     BOOL aimbotEnabled   = [[Menu getValueForKey:@"aimbot"] boolValue];
+     int  espRange        = [[Menu getValueForKey:@"esp_range"] intValue];
+     float fov            = [[Menu getValueForKey:@"fov_radius"] floatValue];
+     NSString *playerName = [Menu getValueForKey:@"player_name"];
+     NSString *aimMode    = [Menu getValueForKey:@"aim_mode"];
+
+     NSLog(@"[NemGHook] Aimbot=%d | ESP=%d | FOV=%.2f | Name=%@ | Mode=%@",
+           aimbotEnabled, espRange, fov, playerName, aimMode);
+
+     // Áp dụng logic game
+     if (aimbotEnabled) {
+         // Ví dụ: triggerAim(fov, aimMode);
+     }
+ }
+
+ // Khi người dùng thay đổi tuỳ chọn qua Web-UI:
+ - (void)onUserDidChangeSetting {
+     [Menu saveState];
+ }
+
+ // Nếu cần khôi phục cấu hình mặc định:
+ - (void)onResetSettings {
+     [Menu loadState];
+     [self updateLogic];
+ }</code></pre>
+        </div>
+      </section>
+
+      <section class="docs-section" id="update-discussion">
+        <h2>Cập nhật & Thảo luận</h2>
+        <p>Tham gia cộng đồng NemG để cập nhật công cụ và thảo luận:</p>
+        <ul>
+          <li><a href="https://discord.gg/your_discord_link" target="_blank" style="color:#0f0;">Discord: https://discord.gg/your_discord_link</a></li>
+        </ul>
+      </section>
+
+      <section class="docs-section" id="conclusion">
+        <h2>Kết luận</h2>
+        <p>Bạn đã có tài liệu hướng dẫn cấu hình Theos, import và sử dụng đầy đủ tất cả API của NemG, cùng ví dụ log, menu, và demo HTML trực quan. Chúc bạn thành công!</p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Khởi Highlight.js
+    hljs.highlightAll();
+
+    function showPage(n) {
+      document.querySelectorAll('.doc-page').forEach((pg, i) => {
+        pg.classList.toggle('active', i === n-1);
+      });
+      document.querySelectorAll('.pagination-controls button').forEach((btn, i) => {
+        btn.classList.toggle('active', i === n-1);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const codeEl = btn.closest('.mac-window').querySelector('code');
+          navigator.clipboard.writeText(codeEl.innerText).then(() => {
+            btn.title = 'Đã copy!';
+            setTimeout(() => btn.title = 'Copy', 1500);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
