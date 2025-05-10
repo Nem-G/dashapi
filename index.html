@@ -174,8 +174,8 @@
   <div class="container">
     <!-- Header chính với icon Discord -->
     <div class="page-header">
-      <h1>NemG SDK Docs</h1>
-      <button class="btn-discord" onclick="window.open('https://discord.gg/your_discord_link','_blank')" title="Join Discord">
+      <h1>NemG Docs</h1>
+      <button class="btn-discord" onclick="window.open('https://discord.gg/nemg','_blank')" title="Join Discord">
         <img src="https://cdn.worldvectorlogo.com/logos/discord-logo-color.svg" alt="Discord">
       </button>
     </div>
@@ -196,7 +196,7 @@
           <strong>
             <a href="https://cdn.discordapp.com/attachments/1368560142727249961/1370591123071832074/API_Version_1.4.zip?ex=68200df4&is=681ebc74&hm=d664d3f8700688b045e542d8b281e966a326891c325e424d7d82a6d937d0b43d&"
                style="color:inherit; text-decoration:none;">
-              NemG (NemGVn.a)
+              (NemG (NemGVn.a))
             </a>
           </strong>
           trong dự án Theos: cấu hình build, import, và tham khảo chi tiết từng API.
@@ -246,7 +246,7 @@ export PATH=$THEOS/bin:$PATH</code></pre>
 
       <!-- Bắt Buộc Phải Có -->
       <section class="docs-section" id="mandatory">
-        <h2>Bắt Buộc Phải Có</h2>
+        <h2>Makefile - Yêu Câu Phải Có</h2>
         <div class="mac-window">
           <div class="mac-header">
             <span class="mac-dot"></span>
@@ -255,8 +255,8 @@ export PATH=$THEOS/bin:$PATH</code></pre>
             <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24"><path d="M19,21H9c-1.1,0-2-0.9-2-2V7hg"/></svg></button>
           </div>
           <pre class="mac-content"><code class="objc">#////////////////////////////////// BẮT BUỘC PHẢI CÓ
-TWEAKNAME_CFLAGS   += -I$(THEOS_PROJECT_DIR)/API -I$(THEOS_PROJECT_DIR)/Menu
-TWEAKNAME_LDFLAGS  += $(THEOS_PROJECT_DIR)/API/NemGVn.a $(THEOS_PROJECT_DIR)/Menu/NemGVn.a
+TWEAKNAME_CFLAGS   += -I$(THEOS_PROJECT_DIR)/API 
+TWEAKNAME_LDFLAGS  += $(THEOS_PROJECT_DIR)/API/NemGVn.a 
 TWEAKNAME_FRAMEWORKS = UIKit Security QuartzCore CoreGraphics CoreText AdSupport Accelerate Foundation WebKit IOKit MobileCoreServices
 #//////////////////////////////////</code></pre>
         </div>
@@ -280,7 +280,7 @@ NemG *API;</code></pre>
 
       <!-- Ví dụ BeautyListModel -->
       <section class="docs-section" id="code-sample">
-        <h2>Ví dụ Code (.mm)</h2>
+        <h2>Ví dụ Code (.mm) </h2>
         <div class="mac-window">
           <div class="mac-header">
             <span class="mac-dot"></span>
@@ -606,7 +606,7 @@ ServerLog(@"User logged in: %@", username);
         <h2>Cập nhật & Thảo luận</h2>
         <p>Tham gia cộng đồng NemG để cập nhật công cụ và thảo luận:</p>
         <ul>
-          <li><a href="https://discord.gg/your_discord_link" target="_blank" style="color:#0f0;">Discord: https://discord.gg/your_discord_link</a></li>
+          <li><a href="https://discord.gg/nemg" target="_blank" style="color:#0f0;">Discord: https://discord.gg/your_discord_link</a></li>
         </ul>
       </section>
 
